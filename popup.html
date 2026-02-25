@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Helper</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <div class="header">
+      <h1>Research Helper</h1>
+      <button id="btn-options" class="icon-btn" title="Settings">&#9881;</button>
+    </div>
+
+    <!-- Status bar -->
+    <div id="status-bar" class="status-bar hidden">
+      <span id="status-text"></span>
+      <div id="spinner" class="spinner hidden"></div>
+    </div>
+
+    <!-- Last analyzed info -->
+    <div id="last-analyzed" class="last-analyzed hidden">
+      <span id="last-analyzed-text"></span>
+    </div>
+
+    <!-- Main action -->
+    <button id="btn-analyze" class="btn-primary">Analyze Page</button>
+
+    <!-- Results container (hidden until analysis completes) -->
+    <div id="results" class="hidden">
+
+      <!-- What this page is about -->
+      <section class="section">
+        <h2>What This Page Is About</h2>
+        <p id="what-about" class="what-about"></p>
+      </section>
+
+      <!-- Summary -->
+      <section class="section">
+        <div class="section-header">
+          <h2>Summary</h2>
+          <button id="btn-copy" class="btn-small" title="Copy summary to clipboard">Copy</button>
+        </div>
+        <p id="summary-text"></p>
+      </section>
+
+      <!-- If you only remember 3 things -->
+      <section class="section">
+        <h2>If You Only Remember 3 Things</h2>
+        <ul id="remember3"></ul>
+      </section>
+
+      <!-- Key Points -->
+      <section class="section collapsible">
+        <h2 class="collapse-toggle" data-target="key-points-list">Key Points <span class="arrow">&#9660;</span></h2>
+        <ul id="key-points-list"></ul>
+      </section>
+
+      <!-- Notable Quotes -->
+      <section class="section collapsible">
+        <h2 class="collapse-toggle" data-target="quotes-list">Notable Quotes <span class="arrow">&#9660;</span></h2>
+        <ul id="quotes-list" class="quotes"></ul>
+      </section>
+
+      <!-- Q&A Section -->
+      <section class="section">
+        <h2>Ask a Question</h2>
+        <div id="llm-warning" class="warning hidden">
+          External LLM is enabled. Page content will be sent to your configured provider.
+        </div>
+        <div class="qa-input">
+          <input type="text" id="qa-question" placeholder="Ask about this page..." />
+          <button id="btn-ask" class="btn-primary btn-ask">Ask</button>
+        </div>
+        <div id="qa-results" class="hidden">
+          <div class="qa-answer">
+            <h3>Answer</h3>
+            <p id="qa-answer-text"></p>
+          </div>
+          <div class="qa-sources">
+            <h3>Sources</h3>
+            <ul id="qa-sources-list"></ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Error display -->
+    <div id="error" class="error hidden">
+      <p id="error-text"></p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Research Helper — Settings</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --surface: #16213e;
+      --primary: #0f9b8e;
+      --primary-hover: #0db8a7;
+      --text: #e0e0e0;
+      --text-muted: #8892a4;
+      --text-heading: #f0f0f0;
+      --border: #2a3a5c;
+      --error: #e74c3c;
+      --warning: #f39c12;
+      --success: #2ecc71;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 520px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 15px;
+      color: var(--text-heading);
+      margin-bottom: 14px;
+    }
+
+    .warning-box {
+      background: rgba(243, 156, 18, 0.1);
+      border: 1px solid var(--warning);
+      color: var(--warning);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .field input[type="text"],
+    .field input[type="password"],
+    .field input[type="url"] {
+      width: 100%;
+      padding: 9px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .field input:focus {
+      border-color: var(--primary);
+    }
+
+    .field .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .toggle-row span {
+      font-size: 13px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      background: var(--text);
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle input:checked + .toggle-slider {
+      background: var(--primary);
+    }
+
+    .toggle input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .status-msg {
+      margin-left: 12px;
+      font-size: 12px;
+      transition: opacity 0.3s;
+    }
+
+    .status-msg.success { color: var(--success); }
+    .status-msg.error { color: var(--error); }
+
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+
+    .info-card h2 {
+      font-size: 14px;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+    }
+
+    .info-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Research Helper Settings</h1>
+    <p class="subtitle">Configure external LLM integration for enhanced Q&A answers.</p>
+
+    <div class="card">
+      <h2>External LLM</h2>
+
+      <div class="warning-box">
+        When enabled, page content extracted by the extension will be sent to
+        the configured API endpoint. Your API key and page text travel over the network.
+        Only enable this if you trust the provider.
+      </div>
+
+      <div class="toggle-row">
+        <span>Enable external LLM for Q&A</span>
+        <label class="toggle">
+          <input type="checkbox" id="llm-enabled" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div id="llm-fields">
+        <div class="field">
+          <label for="llm-endpoint">API Endpoint</label>
+          <input type="url" id="llm-endpoint" placeholder="https://api.openai.com/v1/chat/completions" />
+          <p class="hint">OpenAI-compatible chat completions endpoint.</p>
+        </div>
+
+        <div class="field">
+          <label for="llm-api-key">API Key</label>
+          <input type="password" id="llm-api-key" placeholder="sk-..." />
+          <p class="hint">Stored locally in chrome.storage.local. Never logged or sent anywhere else.</p>
+        </div>
+
+        <div class="field">
+          <label for="llm-model">Model</label>
+          <input type="text" id="llm-model" placeholder="gpt-4o-mini" />
+          <p class="hint">Model identifier sent in the API request.</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="btn-save">Save Settings</button>
+        <span id="status-msg" class="status-msg"></span>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2>Privacy</h2>
+      <p>
+        By default, Research Helper processes everything locally in your browser.
+        No data is sent anywhere. The external LLM feature is opt-in and requires
+        you to provide your own API credentials. When enabled, only the extracted
+        text chunks relevant to your question are sent to the configured endpoint.
+      </p>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
