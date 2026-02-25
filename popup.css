@@ -221,6 +221,54 @@ ul li::before {
   content: none;
 }
 
+/* Read Aloud */
+.read-aloud-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.btn-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-read:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-read.active {
+  border-color: var(--primary);
+  background: rgba(15, 155, 142, 0.15);
+  color: var(--primary);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.btn-stop {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.btn-stop:hover {
+  background: rgba(231, 76, 60, 0.1);
+}
+
 /* Collapsible sections */
 .collapse-toggle {
   cursor: pointer;

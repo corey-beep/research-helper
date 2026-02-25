@@ -31,6 +31,12 @@
     <!-- Results container (hidden until analysis completes) -->
     <div id="results" class="hidden">
 
+      <!-- Read Aloud controls -->
+      <div class="read-aloud-bar">
+        <button id="btn-read-aloud" class="btn-read" title="Read summary aloud">&#9654; Read Aloud</button>
+        <button id="btn-stop-read" class="btn-read btn-stop hidden" title="Stop reading">&#9632; Stop</button>
+      </div>
+
       <!-- What this page is about -->
       <section class="section">
         <h2>What This Page Is About</h2>
@@ -93,6 +99,6 @@
     </div>
   </div>
 
-  <script src="popup.js"></script>
+  <script type="module" src="popup.js"></script>
 </body>
 </html>

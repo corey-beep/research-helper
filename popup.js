@@ -4,12 +4,16 @@
  * and rendering of analysis results.
  */
 
+import { speak, stop, onStateChange, getState } from './lib/tts.js';
+
 // --- DOM References ---
 const btnAnalyze = document.getElementById('btn-analyze');
 const btnOptions = document.getElementById('btn-options');
 const btnCopy = document.getElementById('btn-copy');
 const btnAsk = document.getElementById('btn-ask');
 const qaInput = document.getElementById('qa-question');
+const btnReadAloud = document.getElementById('btn-read-aloud');
+const btnStopRead = document.getElementById('btn-stop-read');
 const statusBar = document.getElementById('status-bar');
 const statusText = document.getElementById('status-text');
 const spinner = document.getElementById('spinner');
@@ -253,6 +257,78 @@ document.querySelectorAll('.collapse-toggle').forEach(toggle => {
       toggle.classList.toggle('collapsed');
     }
   });
+});
+
+// --- Text-to-Speech (Read Aloud) with Piper TTS ---
+
+function buildReadAloudText() {
+  const whatAbout = document.getElementById('what-about').textContent;
+  const overview = document.getElementById('summary-text').textContent;
+  const remember3 = Array.from(document.getElementById('remember3').children)
+    .map(li => li.textContent);
+  const keyPoints = Array.from(document.getElementById('key-points-list').children)
+    .map(li => li.textContent);
+
+  const parts = [];
+  if (whatAbout) parts.push(whatAbout);
+  if (overview) parts.push('Summary. ' + overview);
+  if (remember3.length > 0) {
+    parts.push('Key takeaways. ' + remember3.map((r, i) => `${i + 1}. ${r}`).join('. '));
+  }
+  if (keyPoints.length > 0) {
+    parts.push('Key points. ' + keyPoints.map((p, i) => `${i + 1}. ${p}`).join('. '));
+  }
+  return parts.join('. . ');
+}
+
+// Update button UI based on TTS state changes
+onStateChange((state) => {
+  switch (state) {
+    case 'loading':
+      btnReadAloud.classList.add('active');
+      btnReadAloud.textContent = 'Downloading voice...';
+      show(btnStopRead);
+      break;
+    case 'generating':
+      btnReadAloud.classList.add('active');
+      btnReadAloud.textContent = 'Generating audio...';
+      show(btnStopRead);
+      break;
+    case 'speaking':
+      btnReadAloud.classList.add('active');
+      btnReadAloud.textContent = '\u266A Speaking...';
+      show(btnStopRead);
+      break;
+    case 'idle':
+    default:
+      btnReadAloud.classList.remove('active');
+      btnReadAloud.innerHTML = '&#9654; Read Aloud';
+      hide(btnStopRead);
+      break;
+  }
+});
+
+btnReadAloud.addEventListener('click', async () => {
+  const currentState = getState();
+  if (currentState !== 'idle') {
+    stop();
+    return;
+  }
+
+  const text = buildReadAloudText();
+  if (!text) return;
+
+  try {
+    await speak(text, (pct) => {
+      btnReadAloud.textContent = `Downloading voice... ${pct}%`;
+    });
+  } catch (err) {
+    showError('Voice playback failed: ' + err.message);
+  }
+});
+
+btnStopRead.addEventListener('click', () => {
+  stop();
 });
 
 // --- Init: Check for cached data and LLM warning ---
